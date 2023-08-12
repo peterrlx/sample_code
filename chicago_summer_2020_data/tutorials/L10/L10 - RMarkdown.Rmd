@@ -1,0 +1,203 @@
+---
+title: 'Programming in R: Lecture 10 - RMarkdown'
+author: "Austin Wright, The University of Chicago"
+date: '2020'
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+url_color: blue
+---
+
+*NOTE: If you don't have RMarkdown installed, please run the following code in your console:*
+
+```{r, eval=FALSE}
+install.packages("rmarkdown")
+install.packages("knitr")
+```
+
+By default, R Markdown document will be "knit" or rendered to HTML. If you want to add the ability to render to PDF you need to install LaTeX, a typesetting system. To do so, you can run the lines of code below. *NOTE: This may take quite awhile to install!*
+
+```{r, eval=FALSE}
+install.packages('tinytex')
+tinytex::install_tinytex()
+```
+
+# Overview
+
+R Markdown is filetype and syntax that lets you embed and run code within a Markdown text document. It also allows you to control how the results of your code appear in your document, which means you can place tables, plots, and math directly underneath your code. It's perfect for doing homework or creating reproducible reports.
+
+First, some preliminary things. In a .Rmd file, anything inside of a grey chunk (like the one below) is either code or math. You can run the code within a chunk just as you would run it in a .R file. You can easily create a new R chunk using Option + CMD + i on a Mac or Ctrl + Alt + i on Windows, or by using the Insert button at the top of the text editor pane.  
+
+
+
+```{r test2, message=FALSE}
+library(haven)
+library(tidyverse)
+wage <- read_dta("WAGE2.DTA")
+glimpse(wage)
+
+x <- 8
+```
+
+Note that the code output displays directly below the code chunk. This is useful as it allows you to display both code and its results in one document. Anything outside of a grey code chunk is treated as Markdown text. This means you can use standard Markdown text formatting methods. 
+
+When you're finished with your document and want to render to HTML or PDF, hit the `Knit` button at the top of the text editor. This will run all of the code in your document, evaluate all the Markdown, and combine the results in a single document. This document is saved automatically to your working directory. 
+
+*Technical Note: Every time your run an R Markdown document it runs your code in a new R session. This means that it will have no knowledge of variables or datasets saved to your global environment unless they are specifically defined inside the .Rmd's code chunks. In other words, if you run an R script that creates the variable X, you can't reference that variable X in my R Markdown document unless you put whatever code created it inside a code chunk in the same .Rmd file.*
+
+# Markdown Text Formatting
+
+***
+
+This is plain text.  
+*This is italic text* and _so is this_.  
+**This is bold text** and __so is this__.  
+
+--This is strikethrough--  
+This is ^superscript^.
+
+[This is a hyperlink](canvas.uchicago.edu)  
+
+This is an embedded image  
+![This is the image caption](harris.jpg)
+
+You can also use # to create headers and subheaders. Note that this doesn't just change this size of your text, it defines the structure of your document. Headers in Markdown are used to denote sections and subsections. If you were to add a table of contents to your document, they would automatically be separated into sections based on their heirarchy. For example:
+
+# This is section 1
+## This is subsection 1.1
+### This is subsection 1.1.1
+# This is section 2
+## This is subsection 2.1
+## This is subsection 2.2
+
+You can also embed inline code using backticks. For R Markdown to recognize your code as R code and evaluate it, you must preface your inline chunk with the letter r. Any text surrounded by backticks but not prefaced with r will be formatted as code but not evaluated. For example, the first entry from the `hours` column of the `wage` data can be found by running `wage$hours[1]`, the actual value is `r wage$hours[1]`.
+
+The value of x is equal to `r x`
+
+
+***
+
+# Chunk Options
+
+Often you may want to change how a chunk or its output are displayed. For example, in your finished document, you may want to hide all of your code and show only your results. Or you may want to ignore messages or warnings created by certain functions, since they aren't valuable to your document's reader. 
+
+You can change how code and output are displayed by changing chunk options. Chunk options are defined in the header of each chunk. Let's look at an example:
+
+```{r chunk_example1, message=FALSE, warning=FALSE}
+2 + 2
+```
+
+This chunk is an R chunk (it has the lowercase r as the first thing after the bracket). It is named `chunk_example1`. The name of your chunk always comes after the lowercase r, separated by a space. After the name you can place chunk options, separated by commas. The options in this case prevent messages and warnings, respectively, from being embedded in your output document. Let's look at some other chunk options:
+
+\pagebreak
+
+**Don't display code, only output**
+Use this to hide code for a clean final document
+
+```{r chunk_example2, echo=FALSE}
+# comment
+plot(wage$wage, wage$IQ)
+```
+
+**Don't display code or output** 
+The code is still run, but the chunk and its results are not displayed. Use this to load libraries
+
+```{r, include=FALSE, message=FALSE}
+library(tidyverse)
+library(tidycensus)
+```
+
+
+```{r chunk_example3, include=FALSE}
+plot(wage$wage, wage$IQ)
+```
+
+**Don't run the code, but still display it**
+For showing example code you don't actually want to run
+
+```{r chunk_example4, eval=FALSE}
+plot(wage$IQ, wage$wage)
+```
+
+**You can combine multiple chunk options** 
+A good way to start with your markdown: loads all libraries and hides their loading messages
+
+```{r chunk_example5, message=FALSE, warning=FALSE, include=FALSE}
+library(tidyverse)
+```
+
+For a comprehensive list of knitr chunk options, see [here](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
+
+# Plots and Tables
+
+R Markdown also allows you to embed tables, plots, and other code results directly in your document. This happens automatically by default. Let's make a few simple regression plots.
+
+```{r regression_plot1, fig.height=4, fig.width=6}
+# This chunk shows the both and outputs the plot
+educ_reg <- lm(wage ~ IQ, wage)
+
+ggplot() +
+  geom_point(data = wage, aes(x = IQ, y = wage)) +
+  geom_abline(
+    intercept = educ_reg$coefficients[1],
+    slope = educ_reg$coefficients[2],
+    color = "red",
+    size = 1.5
+    )
+```
+
+```{r regression_plot2, echo=FALSE}
+# This chunk shows only the plot
+
+ggplot(data = wage, aes(x = IQ, y = wage)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "red", size = 1.5)
+```
+
+```{r regression_plot3, warning=FALSE, echo=FALSE}
+# This chunk hides the code and a warning produced by stat_smooth
+
+ggplot(wage, aes(x = IQ, y = wage)) + 
+  geom_point() + 
+  stat_smooth(
+    method = "lm", 
+    formula = y ~ x + poly(x, 2)
+    )
+```
+
+You can also embed nice regression tables in R Markdown using both the standard output or a package called `stargazer`. Here's the default table created by `summary()`.
+
+```{r reg_table1}
+multi_model <- lm(wage ~ hours + IQ + urban, data = wage)
+multi_model2 <- lm(wage ~ hours + IQ + exper, data = wage)
+
+summary(multi_model)
+```
+
+\pagebreak
+
+Stargazer tables output as LaTeX by default. If you are knitting to PDF you should keep LaTeX. If you are knitting to HTML use `type = "html"`. If you are knitting to Word or some other format use `type = "text"`. Note that for R Markdown to correctly evaluate and embed the tables created by `stargazer`, you must set the chunk option `results = 'asis'`. This will remove the ## proceeding R results and allow the LaTeX/HTML to be evaluated.
+
+```{r reg_table2, message=FALSE, warning=FALSE, results='asis'}
+#install.packages("stargazer")
+library(stargazer)
+stargazer(multi_model, multi_model2, type = 'LaTeX', header = FALSE)
+```
+
+Stargazer tables can be *very* complicated. There are plenty of templates and online examples as well.
+
+\pagebreak
+
+# Math
+
+R Markdown can also embed math using LaTeX, a typesetting language. This is handy for adding equations to homework or papers. The easiest way to embed math is using dollar signs. For example, inline math like $2 + 2 = 4$ can be done using single dollar signs, while centered equations on their own lines can be created using double dollar signs. 
+
+\pagebreak 
+
+# More Resources
+
+There is a *very* complete RMarkdown guide [here](https://bookdown.org/yihui/rmarkdown/) written by its creator Yihui Xie. 
+
+There's also an RMarkdown cheatsheet published by RStudio that you can find on [GitHub](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf).
+

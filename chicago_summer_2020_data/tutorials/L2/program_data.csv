@@ -1,0 +1,53 @@
+country,policy_area,height,num_siblings,best_friend_age,fav_food,op_system,prior_exp
+China,Healthcare,164,1,23,Hotpot,Windows,No
+China,International trade,175,0,20,Icecream,Windows,No
+China,Economics,166,1,20,Matcha,Windows,No
+Spain,International development,190,3,20,Ceviche,Apple/Mac OS,Yes
+China ,Education,164,0,22,Icecream,Windows,Yes
+China,Humanitarian issues,165,0,20,Fish,Windows,No
+China,Public policy,171,0,19,Pizza,Apple/Mac OS,No
+China ,Poverty,164,0,20,Sushi,Apple/Mac OS,Yes
+China,International relatons,179,0,20,Steak,Windows,No
+China,Education,171,1,22,Bamboo,Windows,No
+China,Healthcare,176,0,20,Steak,Windows,Yes
+China,Economics,158,0,20,Steak,Windows,No
+China,Healthcare,160,0,20,Pizza,Apple/Mac OS,Yes
+China,Gender,164,0,21,Icecream,Apple/Mac OS,No
+China,None,160,0,22,None,Windows,Yes
+United States,Education,172,2,23,Korean BBQ,Apple/Mac OS,Yes
+China,Economics,163,0,20,Seafood,Windows,Yes
+United States,Healthcare,170,1,19,Pizza,Apple/Mac OS,No
+China,Economics,170,0,21,Lasagna,Windows,Yes
+Taiwan,Human rights,154,1,21,Sushi,Apple/Mac OS,Yes
+China,Finance,165,1,21,Seafood,Windows,No
+China,Crime,160,0,19,Spaghetti ,Windows,Yes
+China,Economics,163,0,20,Cakes,Apple/Mac OS,Yes
+China,Immigration,157,0,19,Salad,Apple/Mac OS,Yes
+China,Immigration,176,0,19,Sushi,Windows,Yes
+China,Education,175,0,22,Bubble tea,Windows,Yes
+China,Government procurement,157,0,25,Peach,Windows,Yes
+China,Education,176,0,20,Hotpot,Windows,Yes
+Brazil,Education,173,1,21,Shrimp,Windows,Yes
+Pakistan,Education,156,2,23,Pasta,Windows,Yes
+China,Education,175,0,20,Noodles,Windows,No
+China,International development,178,0,19,Chips,Apple/Mac OS,No
+United States,Economics,190,1,23,Apples and peanut butter,Apple/Mac OS,Yes
+China,Education,167,0,20,Eggs,Apple/Mac OS,Yes
+United States,Environment,160,1,21,Scallops,Windows,Yes
+Mexico,Education,170,1,22,Lasagna,Windows,Yes
+China,Economics,182,0,21,Steak,Windows,Yes
+Taiwan,Poverty,152,1,22,Hotpot,Apple/Mac OS,Yes
+China,Education ,168,4,21,Potatoes,Windows,No
+China,Economics,163,0,20,Broccoli,Windows,Yes
+Brazil,Economics,182,2,23,Steak,Windows,Yes
+China,Environment,167,0,24,None,Windows,Yes
+China,Economics,167,0,20,Beef,Apple/Mac OS,No
+China,Economics,171,0,21,Steak,Windows,Yes
+China,Economics,171,0,21,Steak,Windows,Yes
+Indonesia,Healthcare,174,2,26,Meatballs,Apple/Mac OS,No
+China,Economics,162,0,18,Sushi,Windows,No
+Indonesia,Infrastructure,170,2,21,Steak,Apple/Mac OS,Yes
+China,Education,160,0,21,Pancakes,Windows,Yes
+United States,Healthcare,164,2,22,Pancakes,Apple/Mac OS,No
+Canada,Healthcare,160,0,22,Chips,Apple/Mac OS,Yes
+China,Economics,170,0,20,Sushi,Apple/Mac OS,Yes
