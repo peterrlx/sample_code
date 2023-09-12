@@ -2,12 +2,12 @@
 
 - This repository contains various codes that I have written to extract, clean, re-organize, and analyze data for RA work, course projects, or other purposes.   
 - In this readme file, I briefly describe what each file in each folder does.     
-- Since Github does not allow users to upload single files larger than 100 MB, datasets related to the code commands are not included in this repo. I will provide the data files upon request. 
+- Datasets related to the code commands are not included in this repo. I will provide the data files upon request. 
 
-<!-- ## RA work-->
-
-
-
+## RA work
+selected files of past RA work.
+- `gen_csv_wb_data.ipynb`: convert netcdf files downloaded from World Bank climate change databse into csv files.
+- `clean_ERA5.m` and `gen_panel_ERA5.do`: The `.m` file uses powerplant location information to find the temperature and rainfall at that location based on netcdf spaital data extracted from ERA5-land (a dataset from Copernicus Climate Change Service). The matching target is latitude and longitude. Then, the `.do` file generates a panel by merging powerplant data with ERA-5 temperature & rainfall data.
 
 ## Course projects or homework
 
