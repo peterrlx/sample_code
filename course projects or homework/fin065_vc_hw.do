@@ -1,4 +1,4 @@
-* Peter RL Xue
+* Rongli Xue
 * 2023-04
 * Homework 2 for FIN065: venture capital course
 

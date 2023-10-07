@@ -1,4 +1,4 @@
-% Peter RL Xue
+% Xue
 % 2023-07
 
 % This file generates yearly temperature and rainfall for each powerplant location from 2013-2019.

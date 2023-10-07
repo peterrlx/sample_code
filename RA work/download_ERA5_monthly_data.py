@@ -1,4 +1,4 @@
-# Peter RL XUE
+# XUE
 # 2023-07
 # This file automatically scrapes 1950-2020 monthly data from ERA5-land. It may take some time to complete the download process.
 # source: https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-land-monthly-means?tab=overview

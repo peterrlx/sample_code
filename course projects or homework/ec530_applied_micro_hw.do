@@ -1,4 +1,4 @@
-* Peter RL Xue
+* Rongli Xue
 * 2022-12
 * homework for ECON530: applied micro (DOUGLAS ALMOND, KENNETH Y. CHAY, DAVID S. LEE, QJE 2005, the costs of low birth weight)
 

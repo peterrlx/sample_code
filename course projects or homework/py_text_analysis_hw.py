@@ -1,4 +1,4 @@
-# Peter Xue
+# Xue
 # 2021-04
 # text analysis homework
 # -*- coding: utf-8 -*-
