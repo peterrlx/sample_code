@@ -2,6 +2,8 @@
 **  model 0: no financial frictions+fixed effort+flexible wage (non-linear version)
 */
 
+// Rongli Xue, 2023-10
+
 
 //-------------------------------------------------------------------------
 //  Declare variables
