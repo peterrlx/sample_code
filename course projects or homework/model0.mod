@@ -1,8 +1,6 @@
 /*
-**  model 0: no financial frictions+fixed effort+flexible wage (non-linear version)
+**  model 0: no financial frictions+fixed effort+flexible wage
 */
-
-// Rongli Xue, 2023-10
 
 
 //-------------------------------------------------------------------------
@@ -10,7 +8,7 @@
 //-------------------------------------------------------------------------
 
 
-var z, y, c_h, d, k, i, Lambda_k, Lambda_h, R, w, J, m, u, theta, v, n, x, f, q;
+var z, y, c, c_h, d, k, i, Lambda_k, Lambda_h, R, w, J, m, u, theta, v, n, x, f, q;
 // predetermined_variables k n u; 
 varexo ep_z;
 
@@ -20,10 +18,9 @@ varexo ep_z;
 
 parameters rho, eta, m0, alpha, delta, beta, gamma, varphi, u_b, zeta, rho_z, sig_z, 
 z_ss, e_ss, u_ss, n_ss, f_ss, v_ss, theta_ss, R_ss, y_k_ss, k_n_ss, y_n_ss, y_ss, k_ss,
-i_ss, x_ss, Lambda_k_ss, Lambda_h_ss, w_ss, a_ss, c_h_ss, d_ss, J_ss;
+i_ss, x_ss, Lambda_k_ss, Lambda_h_ss, w_ss, a_ss, c_ss, c_h_ss, d_ss, J_ss;
 
 % labor mkt
-rho = 0.04; % separation rate
 eta = 0.5; % worker's bargaining power
 m0 = 1; % matching efficiency
 
@@ -52,13 +49,16 @@ z_ss = 1;
 e_ss = 0.5;  
 
 % unemployment
-u_ss = 0.0625; 
+u_ss = 0.057; 
 
 % employment
 n_ss = 1-u_ss;
 
 % job finding rate
 f_ss = 0.6; 
+
+// separation rate
+rho = u_ss*f_ss/(1-u_ss); % separation rate
 
 % vacancy
 v_ss = (f_ss*u_ss^(1-eta)/m0)^(1/(1-eta)); 
@@ -143,66 +143,70 @@ q_ss = m_ss/v_ss;
 f_ss = m_ss/u_ss;
 
 
-
 //-------------------------------------------------------------------------
 //  The Model
 //-------------------------------------------------------------------------
 
-model;
+model(linear);
 
 //  Technology process
-    log(z) = rho_z*log(z(-1)) + ep_z; 
+    z = rho_z*z(-1) - ep_z;
  
 //  output
-    y=c_h+d+i+zeta*x^2*n(-1)/2;
+    y_ss*y = c_h_ss*c_h + d_ss*d + i_ss*i + zeta*x_ss^2*n_ss*x + (zeta*x_ss^2*n_ss/2)*n(-1);
 
-    i = y-w*n-zeta*x^2*n(-1)/2-d;
+    d_ss*d + i_ss*i = y_ss*y - w_ss*n_ss*w - n_ss*(w_ss+zeta*x_ss^2/2)*n(-1) - zeta*x_ss^2*n_ss*x;
 
-    y = z*e_ss*k(-1)^alpha*n(-1)^(1-alpha);
+    y = z + alpha*k(-1)+(1-alpha)*n(-1);
  
 //  wage
-    w=eta*((1-alpha)*y/n(-1)+zeta*x^2/2+(1-rho)*zeta*x)+(1-eta)*(u_b+varphi)
--beta*eta*(1-rho-f)*(Lambda_h(+1)*J(+1));
+    w_ss*w = eta*(1-alpha)*(y_n_ss)*(y-n(-1)) 
+    + eta*zeta*x_ss*(x_ss+1-rho)*x
+    + beta*eta*J_ss*f_ss*f 
+    - beta*eta*(1-rho-f_ss)*J_ss*(Lambda_h(+1)+J(+1));
  
 //  firm's surplus  
-    J = (1-alpha)*(y/n(-1)) - w + zeta*x^2/2 + (1-rho)*zeta*x;
+    J_ss*J = (1-alpha)*(y_n_ss)*(y-n(-1)) - w_ss*w + zeta*x_ss*(x_ss+1-rho)*x;
  
 //  Labor Market Tightness
-    theta = v/u(-1);
+    theta = v - u(-1);
  
 //  Unemployment
-    u = 1-n;
+    u = -((1-u_ss)/u_ss)*n;
  
 //  Matching
-    m = u^(eta)*v^(1-eta);
+    m = eta*u+ (1-eta)*v;
  
 //  Employment Dynamics
-    n = (1-rho+x)*n(-1);
+    n = n(-1) + rho*x;
  
 //  hiring rate
-    x = q*v/n(-1);
+    x = q + v - n(-1);
  
 //  job creation condition
-    x = beta*Lambda_k(+1)*J(+1)/zeta;
+    x = Lambda_k(+1) + J(+1);
  
 //  Transition Probabilities
-    q = m/v;
-    f = m/u(-1);
+    q = m - v;
+    f = m - u(-1);
  
 // Capital Renting
-    Lambda_h(+1) = 1/R/beta;
+    Lambda_h(+1) = -R;
  
 //  investment
-   1 = beta*Lambda_k*(alpha*y(+1)/k+1-delta);
+   0 = beta*(alpha*y_k_ss+1-delta)*Lambda_k
+      +alpha*beta*y_k_ss*(y(+1)-k);
  
  
 //  Capital Dynamics
-    k = (1-delta)*k(-1) + i;
+    k = (1-delta)*k(-1) + (i_ss/k_ss)*i;
  
 //  Marginal Utility
-    Lambda_k = d/d(+1);
-    Lambda_h = c_h/c_h(+1);
+    Lambda_k = d-d(+1);
+    Lambda_h = c_h - c_h(+1);
 
+// consumption
+   c_ss*c = c_h_ss*c_h + d_ss*d;
 
 end;
 
@@ -210,28 +214,29 @@ end;
 //  The Steady State
 //-------------------------------------------------------------------------
 initval;
-z = 1;
-y = y_ss;
-c_h = c_h_ss;
-d = d_ss;
-k = k_ss;
-i = i_ss;
-Lambda_k = 1;
-Lambda_h = 1;
-R = R_ss;
-w = w_ss;
-J = J_ss;
-m = m_ss;
-u = u_ss;
-theta = theta_ss;
-v = v_ss;
-n = n_ss;
-x = x_ss;
-f = f_ss;
-q = q_ss;
+z = 0;
+y = 0;
+c_h = 0;
+d = 0;
+k = 0;
+i = 0;
+Lambda_k = 0;
+Lambda_h = 0;
+R = 0;
+w = 0;
+J = 0;
+m = 0;
+u = 0;
+theta = 0;
+v = 0;
+n = 0;
+x = 0;
+f = 0;
+q = 0;
 end;
 
 resid(1);
+
 steady;
 check;
 
@@ -244,9 +249,5 @@ var ep_z;   stderr sig_z;
 end;
 
 
-//  GT's original monthly simulation
-//stoch_simul(periods=121000, hp_filter=14400, drop=1000, irf=80);
-
-//  Quarterly simulation compatible to BCK
-stoch_simul(order=1, periods=4000, hp_filter=1600, drop=1000, irf=40);
-
+//  Quarterly simulation
+stoch_simul(periods=4000, hp_filter=1600, drop=1000, irf=20);
