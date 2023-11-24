@@ -2,7 +2,7 @@
 
 - This repository contains various codes that I have written to extract, clean, re-organize, and analyze data for RA work, course projects, or other purposes.   
 - In this readme file, I briefly describe what each file in each folder does.     
-- Datasets related to the code commands are not included in this repo. I will provide the data files upon request. 
+- Datasets related to the code commands are not included in this repo. To run some of the codes successfully, you may need the data files, which are available upon request. 
 
 ## RA work
 selected files of past RA work.
@@ -17,6 +17,7 @@ selected files of past RA work.
 - `ec530_applied_micro_hw.do`: Homework for applied micro course. The problem set is based on the paper Almond, Chay, and Lee (2005). The requirement is to estimate the causal effect of maternal smoking during pregnancy on infant birthweight and other infant health outcomes based on propensity score approach. The data for the problem set is an extract of all births from the 1993 National Natality Detail Files for Pennsylvania. Each observation represents an infant-mother match.
 - `macro_RBC_habit_BK.m`: Homework 5 for advanced macro I. It solves a RBC model with habit formation by BK method.
 - `py_text_analysis_hw.py`: text analysis homework for python intro course (undergrad).
+- `summer_school_uchicago.R`: Homework for "Programming in R" at UChicago summer school (undergrad).
 
 
 
